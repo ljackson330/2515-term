@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Order {{ order.id }}</h1>
+            <p>Order Created: {{ order.created.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p>Order Processed: {% if order.processed %} {{ order.processed.strftime('%Y-%m-%d %H:%M') }} {% else %} Not yet processed {% endif %}</p>
+            <p>Customer: <a href="{{ url_for('html_routes.customer_detail', customer_id=order.customer.id) }}">{{ order.customer.name }}</a>, balance: <span style="color: {% if order.customer.balance <= 0 %} red {% endif %}; font-weight: {% if order.customer.balance <= 0 %} bold {% endif %};">{{ order.customer.balance }}</span></p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity Ordered</th>
+                            <th>Quantity Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items %}
+                            <tr onclick="window.location.href='{{ url_for('html_routes.order_detail', order_id=order.id) }}';" style="cursor: pointer;">
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.product.quantity_available }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Total: {{ order.total }}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-md-auto">
+            <form method="POST" action="{{ url_for('api_orders.order_process_button', order_id=order.id) }}">
+                {% if order.processed %}
+                    <button type="submit" class="btn btn-success" disabled>Process</button>
+                {% else %}
+                    <button type="submit" class="btn btn-success">Process</button>
+                {% endif %}
+            </form>
+        </div>
+        <div class="col-md-auto">
+            <form method="POST" action="{{ url_for('api_orders.delete_order_api', order_id=order.id) }}">
+                {% if order.processed is not defined or order.processed is none %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                {% else %}
+                    <button type="button" class="btn btn-danger" disabled>Delete</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

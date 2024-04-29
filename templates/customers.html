@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Customers</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 7%;">Customer ID</th>
+                <th>Customer Name</th>
+                <th>Phone Number</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers | sort(attribute='id') %}
+                <tr onclick="window.location.href='{{ url_for('html_routes.customer_detail', customer_id=customer.id) }}';" style="cursor: pointer;">
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.phone }}</td>
+                    <td style="color: {% if customer.balance <= 0 %} red {% endif %}; font-weight: {% if customer.balance <= 0 %} bold {% endif %};">
+                        {{ customer.balance | round(2) }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="my-3">
+        <a href="{{ url_for('html_routes.home') }}" class="btn btn-primary">Home</a>
+        <a href="{{ url_for('html_routes.customers') }}" class="btn btn-primary">Customers</a>
+        <a href="{{ url_for('html_routes.products') }}" class="btn btn-primary">Products</a>
+        <a href="{{ url_for('html_routes.orders') }}" class="btn btn-primary">Orders</a>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>{{ customer.name }}</h1>
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">
+                        <strong>Name:</strong> {{ customer.name }} <br>
+                        <strong>Phone:</strong> {{ customer.phone }} <br>
+                        <strong>Balance:</strong> {{ customer.balance }} <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="my-3">Orders</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in customer.orders %}
+                        <tr>
+                            <td><a href="{{ url_for('html_routes.order_detail', order_id=order.id) }}">Order {{ order.id }}</a></td>
+                            <td>{{ order.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

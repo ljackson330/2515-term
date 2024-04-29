@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Orders</h1>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 5%;">Order ID</th>
+                <th style="width: 45%;">Customer Name</th>
+                <th style="width: 25%;" class="text-right">Total</th>
+                <th style="width: 25%;" class="text-right">Processed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders | sort(attribute='id') %}
+                <tr onclick="window.location.href='{{ url_for('html_routes.order_detail', order_id=order.id) }}';" style="cursor: pointer;">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.customer.name }}</td>
+                    <td class="text-right">{{ order.total }}</td>
+                    <td class="text-right" style="font-weight: bold; color: {% if order.processed %} green {% else %} red {% endif %};">
+                        {% if order.processed %} Yes {% else %} No {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
